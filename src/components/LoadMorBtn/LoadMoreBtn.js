@@ -1,10 +1,11 @@
-import { ImBinoculars } from 'react-icons/im';
+import { FcBinoculars } from 'react-icons/fc';
+import { LoadMore } from './LoadMoreBtn.styled';
 
 export const LoadMoreBtn = ({ onClick }) => {
   return (
-    <button type="button" onClick={() => onClick()}>
-      Load_ <ImBinoculars size="22" />
+    <LoadMore type="button" onClick={() => onClick()}>
+      Load_ <FcBinoculars size="22" />
       _more
-    </button>
+    </LoadMore>
   );
 };

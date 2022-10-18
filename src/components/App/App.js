@@ -5,6 +5,9 @@ import { fetch } from '../Fetch/fetch';
 import { LoadMoreBtn } from '../LoadMorBtn/LoadMoreBtn';
 import { PendingVew } from '../ImageGallery/PendingVew/PendingVew';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 export class App extends Component {
   state = {
     name: '',
@@ -14,21 +17,25 @@ export class App extends Component {
     isModalOpen: false,
     showModalInfo: [],
     loadMoreBtn: false,
+    autoScroll: false,
   };
 
   async componentDidUpdate(_, prevState) {
-    const { name, pageNumber } = this.state;
+    const { name, pageNumber, autoScroll } = this.state;
     if (prevState.name !== name || prevState.pageNumber !== pageNumber) {
       try {
         this.setState({ status: 'pending' });
         const data = await fetch(name, pageNumber);
+
         this.setState(prevState => ({
           response: [...prevState.response, ...data.hits],
           status: 'resolved',
           loadMoreBtn: true,
+          autoScroll: true,
         }));
 
         if (pageNumber === Math.ceil(data.totalHits / 12)) {
+          toast.info('You have seen all photos ');
           return this.setState({
             loadMoreBtn: false,
           });
@@ -37,10 +44,22 @@ export class App extends Component {
         this.setState({
           status: 'rejected',
         });
+
         console.log(error);
       }
     }
+    if (autoScroll) {
+      this.windowScroll();
+    }
   }
+
+  windowScroll = () => {
+    window.scrollBy({
+      top: 220,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
 
   onSubmit = info => {
     this.setState({
@@ -64,6 +83,7 @@ export class App extends Component {
     this.setState(({ isModalOpen }) => ({
       isModalOpen: !isModalOpen,
       showModalInfo: [...id],
+      autoScroll: false,
     }));
   };
 
@@ -74,7 +94,7 @@ export class App extends Component {
   };
 
   render() {
-    const { response, name, status, isModalOpen, showModalInfo, loadMoreBtn } =
+    const { response, status, isModalOpen, showModalInfo, loadMoreBtn } =
       this.state;
 
     if (status === 'idle') {
@@ -91,7 +111,8 @@ export class App extends Component {
         <>
           <Searchbar onSubmit={this.onSubmit} />
           <p>
-            No <b>{name}</b> photos, pls,try another word
+            Sorry, there are no images matching your search query. Please try
+            again.
           </p>
         </>
       );
@@ -125,6 +146,7 @@ export class App extends Component {
             closeModal={this.closeModal}
           />
           {loadMoreBtn && <LoadMoreBtn onClick={this.handleCount} />}
+          <ToastContainer autoClose={3000} />
         </>
       );
     }

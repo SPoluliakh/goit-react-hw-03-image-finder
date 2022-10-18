@@ -17,13 +17,8 @@ export const fetch = async (name, pageNumber) => {
 
   const url = `https://pixabay.com/api/?${searchParams}`;
   const response = await axios.get(url);
-
-  // const res = await fetch(url);
-  // const response = await res.jsone();
-
   if (!response.data.hits.length) {
     throw new Error(`No photos`);
   }
-  // console.log(response);
   return response.data;
 };

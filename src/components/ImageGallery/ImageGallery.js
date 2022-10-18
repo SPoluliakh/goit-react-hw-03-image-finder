@@ -1,5 +1,7 @@
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Modal } from '../Modal/Modal';
+import { ImageGalleryList } from './ImageGallery.Styled';
+import { Box } from 'components/Box';
 
 export const ImageGallery = ({
   searchInfo,
@@ -9,14 +11,14 @@ export const ImageGallery = ({
   closeModal,
 }) => {
   return (
-    <>
-      <ul>
+    <Box padding="0 15px" margin=" 0 auto" width="1200px">
+      <ImageGalleryList>
         <ImageGalleryItem
           searchInfo={searchInfo}
           onClick={openModal}
           isModalOpen={isModalOpen}
         />
-      </ul>
+      </ImageGalleryList>
       {isModalOpen && (
         <Modal closeModal={closeModal}>
           <img
@@ -25,6 +27,6 @@ export const ImageGallery = ({
           />
         </Modal>
       )}
-    </>
+    </Box>
   );
 };

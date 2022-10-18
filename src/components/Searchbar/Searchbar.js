@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import { FcBinoculars } from 'react-icons/fc';
+import {
+  Header,
+  SearchForm,
+  SearchFormBtn,
+  SerchFormInput,
+} from './Searchbar.style';
 
 export class Searchbar extends Component {
   state = {
@@ -15,7 +22,7 @@ export class Searchbar extends Component {
     evt.preventDefault();
 
     if (evt.currentTarget.elements.searchInfo.value.trim() === '') {
-      return alert('need some word');
+      return alert('You must enter a keyword');
     }
     this.props.onSubmit(this.state.searchInfo);
     this.reset();
@@ -27,13 +34,13 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <header>
-        <form onSubmit={this.onSubmit}>
-          <button type="submit">
-            <span>Search</span>
-          </button>
+      <Header>
+        <SearchForm onSubmit={this.onSubmit}>
+          <SearchFormBtn type="submit">
+            <FcBinoculars size="20" />
+          </SearchFormBtn>
 
-          <input
+          <SerchFormInput
             value={this.state.searchInfo}
             name="searchInfo"
             onChange={this.inputChange}
@@ -42,8 +49,8 @@ export class Searchbar extends Component {
             autoFocus
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </SearchForm>
+      </Header>
     );
   }
 }
