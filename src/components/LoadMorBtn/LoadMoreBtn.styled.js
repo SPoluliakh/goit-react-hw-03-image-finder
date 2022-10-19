@@ -12,8 +12,7 @@ export const LoadMore = styled.button`
   justify-content: center;
   border-radius: ${p => p.theme.radii.normal};
 
-  :hover,
-  :focus {
+  :hover {
     background: ${p => p.theme.colors.primary};
   }
 `;
