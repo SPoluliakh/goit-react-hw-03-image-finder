@@ -16,9 +16,9 @@ export const Inner = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 1280px;
   width: 100%;
-  max-height: 760px;
+  max-width: 1200px;
+  max-height: auto;
 `;
 
 export const CloseBtn = styled.button`

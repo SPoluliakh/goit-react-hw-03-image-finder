@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { toast } from 'react-toastify';
 import { FcBinoculars } from 'react-icons/fc';
 import {
   Header,
@@ -22,7 +23,7 @@ export class Searchbar extends Component {
     evt.preventDefault();
 
     if (evt.currentTarget.elements.searchInfo.value.trim() === '') {
-      return alert('You must enter a keyword');
+      return toast.warn('You must enter a keyword');
     }
     this.props.onSubmit(this.state.searchInfo);
     this.reset();

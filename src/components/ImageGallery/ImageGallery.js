@@ -1,7 +1,7 @@
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Modal } from '../Modal/Modal';
-import { ImageGalleryList } from './ImageGallery.Styled';
 import { Box } from 'components/Box';
+import { ImageGalleryList, LargeImg } from './ImageGallery.Styled';
 
 export const ImageGallery = ({
   searchInfo,
@@ -21,7 +21,7 @@ export const ImageGallery = ({
       </ImageGalleryList>
       {isModalOpen && (
         <Modal closeModal={closeModal}>
-          <img
+          <LargeImg
             src={showModalInfo[0].largeImageURL}
             alt={showModalInfo[0].tags}
           />

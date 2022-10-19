@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Searchbar } from '../Searchbar/Searchbar';
-import { ImageGallery } from '../ImageGallery/ImageGallery';
-import { fetch } from '../Fetch/fetch';
-import { LoadMoreBtn } from '../LoadMorBtn/LoadMoreBtn';
-import { PendingVew } from '../ImageGallery/PendingVew/PendingVew';
-
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+
+import { fetch } from '../Fetch/fetch';
+import { Idle } from '../Statuses/Idle/Idle';
+import { Rejected } from '../Statuses/Rejected/Rejected';
+import { Pending } from '../Statuses/Pending/Pending';
+import { Resolve } from '../Statuses/Resolve/Resolve';
 
 export class App extends Component {
   state = {
@@ -18,20 +18,25 @@ export class App extends Component {
     showModalInfo: [],
     loadMoreBtn: false,
     autoScroll: false,
+    totalImgInfo: false,
   };
 
   async componentDidUpdate(_, prevState) {
-    const { name, pageNumber, autoScroll } = this.state;
+    const { name, pageNumber, autoScroll, totalImgInfo } = this.state;
     if (prevState.name !== name || prevState.pageNumber !== pageNumber) {
       try {
-        this.setState({ status: 'pending' });
         const data = await fetch(name, pageNumber);
+
+        if (totalImgInfo) {
+          toast.success(`Yahoooo, we finded ${data.totalHits} photos`);
+        }
 
         this.setState(prevState => ({
           response: [...prevState.response, ...data.hits],
           status: 'resolved',
           loadMoreBtn: true,
           autoScroll: true,
+          totalImgInfo: false,
         }));
 
         if (pageNumber === Math.ceil(data.totalHits / 12)) {
@@ -44,7 +49,9 @@ export class App extends Component {
         this.setState({
           status: 'rejected',
         });
-
+        toast.warn(
+          ' Sorry, there are no images matching your search query. Please try again.'
+        );
         console.log(error);
       }
     }
@@ -67,6 +74,7 @@ export class App extends Component {
       pageNumber: 1,
       response: [],
       status: 'pending',
+      totalImgInfo: true,
     });
   };
 
@@ -100,8 +108,7 @@ export class App extends Component {
     if (status === 'idle') {
       return (
         <>
-          <Searchbar onSubmit={this.onSubmit} />
-          <p>Enter your word</p>
+          <Idle onSubmit={this.onSubmit} />
         </>
       );
     }
@@ -109,11 +116,7 @@ export class App extends Component {
     if (status === 'rejected') {
       return (
         <>
-          <Searchbar onSubmit={this.onSubmit} />
-          <p>
-            Sorry, there are no images matching your search query. Please try
-            again.
-          </p>
+          <Rejected onSubmit={this.onSubmit} />
         </>
       );
     }
@@ -121,15 +124,14 @@ export class App extends Component {
     if (status === 'pending') {
       return (
         <>
-          <Searchbar onSubmit={this.onSubmit} />
-          <ImageGallery
+          <Pending
+            onSubmit={this.onSubmit}
             searchInfo={response}
             openleModal={this.openleModal}
             isModalOpen={isModalOpen}
             showModalInfo={showModalInfo}
             closeModal={this.closeModal}
           />
-          <PendingVew />
         </>
       );
     }
@@ -137,16 +139,16 @@ export class App extends Component {
     if (status === 'resolved') {
       return (
         <>
-          <Searchbar onSubmit={this.onSubmit} />
-          <ImageGallery
+          <Resolve
+            onSubmit={this.onSubmit}
             searchInfo={response}
             openModal={this.openleModal}
             isModalOpen={isModalOpen}
             showModalInfo={showModalInfo}
             closeModal={this.closeModal}
+            loadMoreBtn={loadMoreBtn}
+            handleCount={this.handleCount}
           />
-          {loadMoreBtn && <LoadMoreBtn onClick={this.handleCount} />}
-          <ToastContainer autoClose={3000} />
         </>
       );
     }
