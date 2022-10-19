@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import { FcBinoculars } from 'react-icons/fc';
@@ -9,6 +10,10 @@ import {
 } from './Searchbar.style';
 
 export class Searchbar extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func,
+  };
+
   state = {
     searchInfo: '',
   };
@@ -21,8 +26,8 @@ export class Searchbar extends Component {
 
   onSubmit = evt => {
     evt.preventDefault();
-
-    if (evt.currentTarget.elements.searchInfo.value.trim() === '') {
+    const searchInfo = evt.currentTarget.elements.searchInfo.value;
+    if (searchInfo.trim() === '') {
       return toast.warn('You must enter a keyword');
     }
     this.props.onSubmit(this.state.searchInfo);

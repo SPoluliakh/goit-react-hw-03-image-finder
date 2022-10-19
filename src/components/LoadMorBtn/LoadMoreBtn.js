@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { FcBinoculars } from 'react-icons/fc';
 import { LoadMore } from './LoadMoreBtn.styled';
 
@@ -8,4 +9,8 @@ export const LoadMoreBtn = ({ onClick }) => {
       _more
     </LoadMore>
   );
+};
+
+LoadMoreBtn.propTypes = {
+  onClick: PropTypes.func,
 };

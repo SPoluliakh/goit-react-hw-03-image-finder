@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Modal } from '../Modal/Modal';
 import { Box } from 'components/Box';
@@ -29,4 +30,12 @@ export const ImageGallery = ({
       )}
     </Box>
   );
+};
+
+ImageGallery.propTypes = {
+  searchInfo: PropTypes.array.isRequired,
+  openModal: PropTypes.func,
+  isModalOpen: PropTypes.bool.isRequired,
+  showModalInfo: PropTypes.array,
+  closeModal: PropTypes.func.isRequired,
 };

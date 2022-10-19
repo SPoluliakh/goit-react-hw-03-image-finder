@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { GalleryItems, Photo } from './ImageGaleryItem.styled';
 
 export const ImageGalleryItem = ({ searchInfo, onClick }) => {
@@ -12,4 +13,9 @@ export const ImageGalleryItem = ({ searchInfo, onClick }) => {
       })}
     </>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  searchInfo: PropTypes.array.isRequired,
+  onClick: PropTypes.func,
 };
