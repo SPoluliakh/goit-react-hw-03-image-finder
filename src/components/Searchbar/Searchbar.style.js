@@ -22,6 +22,7 @@ export const SearchFormBtn = styled.button`
   padding: 8px;
   width: 50px;
   border-radius: ${p => p.theme.radii.normal};
+  transition: background 150ms linear;
   :hover,
   :focus {
     background: ${p => p.theme.colors.BtnBackground};
@@ -31,8 +32,14 @@ export const SearchFormBtn = styled.button`
 export const SerchFormInput = styled.input`
   width: 200px;
   border-radius: ${p => p.theme.radii.normal};
-  border: ${p => p.theme.borders.none};
   outline: none;
   font-size: ${p => p.theme.fontSizes.m}px;
   padding: 10px;
+  background: ${p => p.theme.colors.inputBcg};
+  border: ${p => p.theme.borders.serchBtn};
+  color: ${p => p.theme.colors.inputText};
+  }
+  ::placeholder {
+    color: ${p => p.theme.colors.placeholder};
+  }
 `;

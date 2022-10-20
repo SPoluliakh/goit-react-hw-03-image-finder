@@ -11,6 +11,7 @@ export const LoadMore = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: ${p => p.theme.radii.normal};
+  transition: background 150ms linear;
 
   :hover {
     background: ${p => p.theme.colors.primary};

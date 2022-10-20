@@ -26,6 +26,9 @@ export const theme = Object.freeze({
     text: '#4056b4',
     statsText: '#ff9',
 
+    placeholder: '#f5ff00a6',
+    inputText: 'yellow',
+    inputBcg: ' #4056b4',
     background: 'rgba(0, 0, 0, 0.5)',
     primary: '#4056b4',
     BtnBackground: '#fefe60',
