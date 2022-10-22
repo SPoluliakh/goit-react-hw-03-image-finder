@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-
 import { fetch } from '../Fetch/fetch';
-import { Idle } from '../Statuses/Idle/Idle';
-import { Rejected } from '../Statuses/Rejected/Rejected';
-import { Pending } from '../Statuses/Pending/Pending';
-import { Resolve } from '../Statuses/Resolve/Resolve';
+import { Searchbar } from '../Searchbar/Searchbar';
+import { ImageGallery } from '../ImageGallery/ImageGallery';
+import { IdleText } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -23,6 +21,7 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { name, pageNumber, autoScroll, totalImgInfo } = this.state;
+
     if (prevState.name !== name || prevState.pageNumber !== pageNumber) {
       try {
         const data = await fetch(name, pageNumber);
@@ -48,6 +47,7 @@ export class App extends Component {
       } catch (error) {
         this.setState({
           status: 'rejected',
+          loadMoreBtn: false,
         });
         toast.warn(
           ' Sorry, there are no images matching your search query. Please try again.'
@@ -75,6 +75,7 @@ export class App extends Component {
       response: [],
       status: 'pending',
       totalImgInfo: true,
+      loadMoreBtn: false,
     });
   };
 
@@ -105,52 +106,21 @@ export class App extends Component {
     const { response, status, isModalOpen, showModalInfo, loadMoreBtn } =
       this.state;
 
-    if (status === 'idle') {
-      return (
-        <>
-          <Idle onSubmit={this.onSubmit} />
-        </>
-      );
-    }
-
-    if (status === 'rejected') {
-      return (
-        <>
-          <Rejected onSubmit={this.onSubmit} />
-        </>
-      );
-    }
-
-    if (status === 'pending') {
-      return (
-        <>
-          <Pending
-            onSubmit={this.onSubmit}
-            searchInfo={response}
-            openleModal={this.openleModal}
-            isModalOpen={isModalOpen}
-            showModalInfo={showModalInfo}
-            closeModal={this.closeModal}
-          />
-        </>
-      );
-    }
-
-    if (status === 'resolved') {
-      return (
-        <>
-          <Resolve
-            onSubmit={this.onSubmit}
-            searchInfo={response}
-            openModal={this.openleModal}
-            isModalOpen={isModalOpen}
-            showModalInfo={showModalInfo}
-            closeModal={this.closeModal}
-            loadMoreBtn={loadMoreBtn}
-            handleCount={this.handleCount}
-          />
-        </>
-      );
-    }
+    return (
+      <>
+        <Searchbar onSubmit={this.onSubmit} />
+        {status === 'idle' && <IdleText>Enter keyword.</IdleText>}
+        <ImageGallery
+          searchInfo={response}
+          openModal={this.openleModal}
+          isModalOpen={isModalOpen}
+          showModalInfo={showModalInfo}
+          closeModal={this.closeModal}
+          loadMoreBtn={loadMoreBtn}
+          handleCount={this.handleCount}
+          status={status}
+        />
+      </>
+    );
   }
 }
