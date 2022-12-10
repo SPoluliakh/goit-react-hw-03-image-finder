@@ -21,15 +21,12 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { name, pageNumber, autoScroll, totalImgInfo } = this.state;
-
     if (prevState.name !== name || prevState.pageNumber !== pageNumber) {
       try {
         const data = await fetch(name, pageNumber);
-
         if (totalImgInfo) {
           toast.success(`Yahoooo, we finded ${data.totalHits} photos`);
         }
-
         this.setState(prevState => ({
           response: [...prevState.response, ...data.hits],
           status: 'resolved',
@@ -85,7 +82,7 @@ export class App extends Component {
     }));
   };
 
-  openleModal = evt => {
+  openModal = evt => {
     const alt = evt.currentTarget.alt;
     const { response } = this.state;
     const id = response.filter(res => res.tags === alt);
@@ -112,7 +109,7 @@ export class App extends Component {
         {status === 'idle' && <IdleText>Enter keyword.</IdleText>}
         <ImageGallery
           searchInfo={response}
-          openModal={this.openleModal}
+          openModal={this.openModal}
           isModalOpen={isModalOpen}
           showModalInfo={showModalInfo}
           closeModal={this.closeModal}

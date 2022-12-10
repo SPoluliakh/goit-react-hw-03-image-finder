@@ -23,7 +23,6 @@ export class Modal extends Component {
 
   coseModal = evt => {
     if (evt.code === 'Escape') {
-      console.log(evt.code);
       this.props.closeModal();
     }
   };
