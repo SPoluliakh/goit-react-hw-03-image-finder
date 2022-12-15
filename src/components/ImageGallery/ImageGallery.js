@@ -3,7 +3,7 @@ import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Modal } from '../Modal/Modal';
 import { Box } from 'components/Box';
 import { ImageGalleryList, LargeImg, SadCat } from './ImageGallery.Styled';
-import { PendingVew } from '../Statuses/PendingVew/PendingVew';
+import { Loader } from '../Statuses/Loader/PendingVew';
 import sadCat from '../Statuses/RejectedVew/sad-cat-15.jpg';
 import { LoadMoreBtn } from '../LoadMorBtn/LoadMoreBtn';
 
@@ -19,7 +19,7 @@ export const ImageGallery = ({
 }) => {
   return (
     <>
-      {status === 'pending' && <PendingVew />}
+      {status === 'pending' && <Loader />}
       {status === 'rejected' && <SadCat src={sadCat} alt="sad-cat" />}
       {status === 'resolved' && (
         <Box padding="0 15px" margin=" 0 auto" width="1200px">
